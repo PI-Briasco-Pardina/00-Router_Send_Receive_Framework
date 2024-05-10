@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify # pip install Flask
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity # Framework de seguridad
 import subprocess                         # El módulo subprocess, que permite ejecutar comandos del sistema operativo desde Python
-import secrets                            # Generar JWT_SECRET_KEY aleatoria para mantener la confidencialidad
+import secrets                            # Generar JWT_SECRET_KEY aleatoria para mantener la confidencialidad (clave generación de access tokens)
 from flask_sqlalchemy import SQLAlchemy   # Base de datos para registrar clientes
 from passlib.hash import pbkdf2_sha256    # Para password hashing
 
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         # -------------------- Reemplazar por endpoint para registro de usuarios ----------------------
         # Función para agregar usuarios
         def add_user(username, password):
-            # Check if the username already exists
+            # Verificar si el usuario ya existe en la base de datos o hay que crearlo
             existing_user = User.query.filter_by(username=username).first()
             if existing_user:
                 print("User with username '{}' already exists.".format(username))
@@ -113,4 +113,5 @@ if __name__ == '__main__':
         # ---------------------------------------------------------------------------------------------
     
     # Iniciar el servidor Flask en la dirección IP 0.0.0.0 (accesible desde cualquier dirección IP) y en el puerto 5000
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000) # IPv4
+    # app.run(host='::', port=5000)  # Bind to all available IPv6 addresses
